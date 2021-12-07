@@ -66,7 +66,7 @@ async function postToTwitter(
   let tweets = formatToTwitter(message);
 
   tweets.push(
-    "Tweet originally published on @ArgoraTeam at https://arweave.net/MHCq_KwBflnpMkZQA6z3B7izxWyoArT2aE4c8VcpnDQ/thread/" +
+    "Tweet originally published on https://argora.xyz at https://arweave.net/" + process.env.ARGORA_TXID + "/thread/" +
       arweaveTxID
   );
 
@@ -101,72 +101,77 @@ async function postToTwitter(
   return { id_str: firstTweetID };
 }
 
-module.exports = {
-  start: () => {
-    // Schedule tasks to be run on the server.
-    cron.schedule(process.env.CRON_SCHEDULE, async function () {
-      console.log("running Argora to Twitter task");
+const run = async () => {
+  console.log("running Argora to Twitter task");
 
-      // for every subscribed user we
-      let subscribers = await db.fetchAllSubscribedUsers();
+  // for every subscribed user we
+  let subscribers = await db.fetchAllSubscribedUsers();
 
-      for (sub of subscribers) {
-        try {
-          // fetch the latest argora messages
-          let res = await graphql.request(
-            arweaveHelper.ARWEAVE_GQL_ENDPOINT,
-            arweaveHelper.argoraQuery(
-              [sub.arweave_address],
-              sub.from_block_height
-            )
+  for (sub of subscribers) {
+    try {
+      // fetch the latest argora messages
+      let res = await graphql.request(
+        arweaveHelper.ARWEAVE_GQL_ENDPOINT,
+        arweaveHelper.argoraQuery(
+          [sub.arweave_address],
+          sub.from_block_height
+        )
+      );
+
+      // we reverse the array to start with the older message first
+      let txs = res.transactions.edges.reverse();
+
+      for (tx of txs) {
+        let txID = tx.node.id;
+        if ((await db.getTweet(txID)) === undefined) {
+          let newRes = await axios.get(
+            arweaveHelper.ARWEAVE_GATEWAY + "/" + txID
           );
 
-          // we reverse the array to start with the older message first
-          let txs = res.transactions.edges.reverse();
+          let message = newRes.data._data.text;
 
-          for (tx of txs) {
-            let txID = tx.node.id;
-            if ((await db.getTweet(txID)) === undefined) {
-              let newRes = await axios.get(
-                arweaveHelper.ARWEAVE_GATEWAY + "/" + txID
-              );
-
-              let message = newRes.data.text;
-
-              if (message === undefined) {
-                continue;
-              }
-              let pictures =
-                newRes.data.pictures === undefined ? [] : newRes.data.pictures;
-
-              console.debug("uploading message", message);
-
-              let oauthAccessToken = decrypt(
-                sub.oauth_access_token,
-                sub.oauth_access_token_iv
-              );
-              let oauthSecretToken = decrypt(
-                sub.oauth_secret_token,
-                sub.oauth_secret_token_iv
-              );
-              let twitterRes = await postToTwitter(
-                message,
-                pictures,
-                txID,
-                oauthAccessToken,
-                oauthSecretToken
-              );
-              console.debug("uploaded to twitter", message);
-
-              console.debug("saving message");
-              await db.saveTweetInfo(sub, txID, twitterRes.id_str);
-              console.debug("message saved");
-            }
+          if (message === undefined) {
+            continue;
           }
-        } catch (e) {
-          console.error(e);
+          let pictures =
+            newRes.data._data.pictures === undefined ? [] : newRes.data._data.pictures;
+
+          console.debug("uploading message", message);
+
+          let oauthAccessToken = decrypt(
+            sub.oauth_access_token,
+            sub.oauth_access_token_iv
+          );
+          let oauthSecretToken = decrypt(
+            sub.oauth_secret_token,
+            sub.oauth_secret_token_iv
+          );
+          let twitterRes = await postToTwitter(
+            message,
+            pictures,
+            txID,
+            oauthAccessToken,
+            oauthSecretToken
+          );
+          console.debug("uploaded to twitter", message);
+
+          console.debug("saving message");
+          await db.saveTweetInfo(sub, txID, twitterRes.id_str);
+          console.debug("message saved");
         }
       }
-    });
-  },
+    } catch (e) {
+      console.error(e);
+    }
+  }
+}
+
+const start = () => {
+  // Schedule tasks to be run on the server.
+  cron.schedule(process.env.CRON_SCHEDULE, run);
+};
+
+module.exports = {
+  start,
+  run
 };

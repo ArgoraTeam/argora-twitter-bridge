@@ -31,3 +31,7 @@ To deploy to production, make sure that at some point in the deployment, you run
 An example of a heroku build process can be seen in the main `package.json` in the folder root.
 
 Don't forget to change the Twitter Developer Project Callback and Website URL with the one of your bridge!
+
+## Misc.
+
+Init db: `npx knex migrate:latest`

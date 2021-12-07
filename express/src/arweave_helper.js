@@ -7,9 +7,8 @@ module.exports = {
     transactions(
       sort: HEIGHT_DESC
       tags: [
-        { name: "App-Name", values: ["argora"] }
-        { name: "reply-to", values: ["world", "profile"] }
-        { name: "App-Version", values: ["1.0", "1.1"] }
+        { name: "Protocol-Name", values: ["argora"] }
+        { name: "Protocol-Version", values: ["1.2-beta-dev"] }
       ]
       block: {min: ${minBlockHeight}, max: 1000000000}
       owners: ${JSON.stringify(addresses)}

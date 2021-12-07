@@ -50,6 +50,9 @@ function App() {
   }, []);
 
   useEffect(() => {
+    /*
+     *  Read url when it changes on "sign in with twitter" click
+     */
     (async () => {
       const { oauth_token, oauth_verifier } = queryString.parse(
         window.location.search
@@ -78,7 +81,7 @@ function App() {
         }
       }
     })();
-  }, []);
+  }, [isLoggedIn]);
 
   const refreshUser = async () => {
     let res = await axios({
@@ -103,7 +106,7 @@ function App() {
         console.error(error);
       }
     })();
-  }, []);
+  }, [isLoggedIn]);
 
   const login = () => {
     (async () => {

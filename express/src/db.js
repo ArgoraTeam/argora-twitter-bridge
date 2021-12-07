@@ -2,7 +2,7 @@ require("dotenv").config();
 
 const knex = require("knex")({
   client: "pg",
-  version: "12",
+  version: "14",
   connection: {
     host: process.env.DB_HOST,
     port: process.env.DB_PORT,
