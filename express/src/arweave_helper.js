@@ -1,3 +1,4 @@
+require("dotenv").config();
 const gql = require("graphql-request").gql;
 
 module.exports = {
@@ -8,7 +9,7 @@ module.exports = {
       sort: HEIGHT_DESC
       tags: [
         { name: "Protocol-Name", values: ["argora"] }
-        { name: "Protocol-Version", values: ["1.2-beta-dev"] }
+        { name: "Protocol-Version", values: ["${process.env.PROTOCOL_VERSION}"] }
       ]
       block: {min: ${minBlockHeight}, max: 1000000000}
       owners: ${JSON.stringify(addresses)}
