@@ -14,7 +14,18 @@ const knex = require("knex")({
   },
 });
 
+
 module.exports = {
+  test: async () => {
+    try{
+      await knex.select().table("users").first();
+    }
+    catch(e){
+      console.error('Error: Database credentials might be incorrect.');
+      process.exit(1);
+    }
+  },
+
   fetchAllSubscribedUsers: async () => {
     return await knex.select().table("users").where("is_subscribed", true);
   },

@@ -15,6 +15,8 @@ const Arweave = require("arweave");
 const path = require("path");
 const { encrypt } = require("./crypto");
 
+db.test();
+
 const arweave = Arweave.init({
   host: "arweave.net",
   port: 443,
