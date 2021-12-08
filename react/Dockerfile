@@ -8,9 +8,6 @@ COPY ./public/ ./public
 COPY src/ ./src
 COPY package.json .
 
-RUN pwd
-RUN ls public
-
 RUN yarn install
 RUN yarn build
 

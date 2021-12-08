@@ -25,6 +25,19 @@ app.use(bodyParser.json());
 app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(morgan("combined"));
 
+app.use(function (req, res, next) {
+  // Website you wish to allow to connect
+  res.setHeader('Access-Control-Allow-Origin', process.env.FRONTEND_URL);
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+  // Request headers you wish to allow
+  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+
+  // Allow cookies to be included in the requests sent
+  res.setHeader('Access-Control-Allow-Credentials', true);
+
+  next();
+});
+
 const router = express.Router();
 
 function getCookie(req, cookieName) {
@@ -61,11 +74,21 @@ router.post("/twitter/oauth/request_token", async (req, res) => {
 
 //OAuth Step 3
 router.post("/twitter/oauth/access_token", async (req, res) => {
+  console.log("* req.body: ", req.body);
+  console.log("* try");
   try {
+
+    console.log("* const { oauth_token: req_oauth_token, oauth_verifier } = req.body;");
     const { oauth_token: req_oauth_token, oauth_verifier } = req.body;
+
+    console.log(" * oauth_token: ", oauth_token);
+
+    console.log("* const oauth_token = req.signedCookies[OAUTH_COOKIE];")
     const oauth_token = req.signedCookies[OAUTH_COOKIE];
 
+    console.log("* if (oauth_token !== req_oauth_token) {")
     if (oauth_token !== req_oauth_token) {
+      console.log('* res.status(403).json({ message: "Request tokens do not match" });')
       res.status(403).json({ message: "Request tokens do not match" });
       return;
     }
@@ -229,11 +252,11 @@ router.post("/twitter/logout", async (req, res) => {
 app.use("/api", router);
 
 // Serve static files from the React app
-app.use(express.static(path.join(__dirname, "../../react/build")));
+// app.use(express.static(path.join(__dirname, "../../react/build")));
 
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname + "/../../react/build/index.html"));
-});
+// app.get("*", (req, res) => {
+//   res.sendFile(path.join(__dirname + "/../../react/build/index.html"));
+// });
 
 argoraCron.start();
 

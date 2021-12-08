@@ -3,8 +3,8 @@ version: '3.8'
 services:
 
   psql:
-    image: postgres:14
     container_name: argora-twitter-bridge.psql
+    image: postgres:14
     restart: always
     environment:
       POSTGRES_PASSWORD: 'password'
@@ -12,11 +12,20 @@ services:
       - psql.db:/var/lib/postgresql/data
   
   frontend:
+    container_name: argora-twitter-bridge.frontend
     build:
       context: react/.
       dockerfile: Dockerfile
     ports:
       - 3010:3000
+  
+  backend:
+    container_name: argora-twitter-bridge.backend
+    build:
+      context: express/.
+      dockerfile: Dockerfile
+    ports:
+      - 3011:3000
 
 volumes:
   psql.db:

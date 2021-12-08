@@ -28,9 +28,21 @@ To run in development, you will have to
 
 To deploy to production, make sure that at some point in the deployment, you run `cd react && yarn build` to get a built out optimized frontend code. The express server will then fetch the react code from the build server and send it to the requester.
 
+### heroku
+
 An example of a heroku build process can be seen in the main `package.json` in the folder root.
 
 Don't forget to change the Twitter Developer Project Callback and Website URL with the one of your bridge!
+
+### docker
+
+- Create and edit the env file used by the Dockerfile: `$ cp express/.env-example express/.env-docker`
+- Change the value of `const apiPath` in `react/src/App.js` file to match with the backend URL (express)
+
+```
+$ docker-compose build
+$ docker-compose up
+```
 
 ## Misc.
 
