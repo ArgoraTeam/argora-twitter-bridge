@@ -83,8 +83,6 @@ router.post("/twitter/oauth/access_token", async (req, res) => {
     console.log("* const { oauth_token: req_oauth_token, oauth_verifier } = req.body;");
     const { oauth_token: req_oauth_token, oauth_verifier } = req.body;
 
-    console.log(" * oauth_token: ", oauth_token);
-
     console.log("* const oauth_token = req.signedCookies[OAUTH_COOKIE];")
     const oauth_token = req.signedCookies[OAUTH_COOKIE];
 

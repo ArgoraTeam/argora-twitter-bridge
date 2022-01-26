@@ -50,8 +50,8 @@ $ docker-compose up
 $ docker cp express/migrations/. argora-twitter-bridge.psql:/root/
 $ docker cp express/knexfile-docker.js argora-twitter-bridge.psql:/root/knexfile.js
 $ docker exec -it argora-twitter-bridge.psql /bin/bash
-# apt update && apt install npm && npm install knex pg
 # cd root
+# apt update && apt install npm && npm install knex pg
 # mkdir migrations
 # mv 20211022195903_first_migration.js migrations
 # mv 20211103145527_add_block_height.js migrations
