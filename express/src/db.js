@@ -18,11 +18,12 @@ const knex = require("knex")({
 module.exports = {
   test: async () => {
     try{
-      await knex.select().table("users").first();
+      await knex.select().table("pg_database").first();
+      console.log(`Database connection ok: ${process.env.DB_NAME}@${process.env.DB_HOST}:${process.env.DB_PORT} with username ${process.env.DB_USER}`);
     }
     catch(e){
       console.error('Error: Database credentials might be incorrect.');
-      process.exit(1);
+      throw new Error(e);
     }
   },
 

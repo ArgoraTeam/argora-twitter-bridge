@@ -11,21 +11,15 @@ services:
     volumes:
       - psql.db:/var/lib/postgresql/data
   
-  frontend:
-    container_name: argora-twitter-bridge.frontend
+  app:
+    container_name: argora-twitter-bridge.app
     build:
-      context: react/.
+      context: .
       dockerfile: Dockerfile
     ports:
       - 3010:3000
-  
-  backend:
-    container_name: argora-twitter-bridge.backend
-    build:
-      context: express/.
-      dockerfile: Dockerfile
-    ports:
-      - 3011:3000
+    depends_on:
+      - psql
 
 volumes:
   psql.db:

@@ -11,7 +11,7 @@ const arweave = Arweave.init({
   protocol: "https",
 });
 
-const apiPath = "http://localhost:3011/api";
+const apiPath = "/api";
 
 const permissions = [
   "ACCESS_ADDRESS",

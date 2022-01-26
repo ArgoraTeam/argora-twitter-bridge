@@ -254,14 +254,14 @@ router.post("/twitter/logout", async (req, res) => {
 app.use("/api", router);
 
 // Serve static files from the React app
-// app.use(express.static(path.join(__dirname, "../../react/build")));
+app.use(express.static(path.join(__dirname, "../../react/build")));
 
-// app.get("*", (req, res) => {
-//   res.sendFile(path.join(__dirname + "/../../react/build/index.html"));
-// });
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname + "/../../react/build/index.html"));
+});
 
 argoraCron.start();
 
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
+  console.log(`Express server listening at http://localhost:${port}`);
 });
