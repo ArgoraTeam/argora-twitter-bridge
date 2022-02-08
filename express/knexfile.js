@@ -8,7 +8,7 @@ module.exports = {
       port: 5432,
       user: "bidetaggle",
       password: "",
-      database: "argorabridge",
+      database: "metaweavebridge",
     },
     seeds: {
       directory: "./seeds",

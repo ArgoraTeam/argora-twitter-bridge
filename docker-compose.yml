@@ -3,7 +3,7 @@ version: '3.8'
 services:
 
   psql:
-    container_name: argora-twitter-bridge.psql
+    container_name: metaweave-twitter-bridge.psql
     image: postgres:14
     restart: always
     environment:
@@ -12,7 +12,7 @@ services:
       - psql.db:/var/lib/postgresql/data
   
   app:
-    container_name: argora-twitter-bridge.app
+    container_name: metaweave-twitter-bridge.app
     build:
       context: .
       dockerfile: Dockerfile
@@ -20,6 +20,7 @@ services:
       - 3010:3000
     depends_on:
       - psql
+    restart: always
 
 volumes:
   psql.db:

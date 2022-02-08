@@ -2,3 +2,4 @@ commit
 dev
 docker
 seed.js
+.DS_Store

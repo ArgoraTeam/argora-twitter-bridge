@@ -3,7 +3,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const morgan = require("morgan");
-const argoraCron = require("./cron");
+const metaweaveCron = require("./cron");
 const db = require("./db");
 const app = express();
 const port = process.env.PORT || 3000;
@@ -258,7 +258,7 @@ app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname + "/../../react/build/index.html"));
 });
 
-argoraCron.start();
+metaweaveCron.start();
 
 app.listen(port, () => {
   console.log(`Express server listening at http://localhost:${port}`);

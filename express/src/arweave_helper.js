@@ -3,7 +3,7 @@ const gql = require("graphql-request").gql;
 
 module.exports = {
   // for now we only post reply-to to anyone
-  argoraQuery: (addresses, minBlockHeight) => gql`
+  metaweaveQuery: (addresses, minBlockHeight) => gql`
   query {
     transactions(
       sort: HEIGHT_DESC

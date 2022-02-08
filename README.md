@@ -1,6 +1,6 @@
-# Argora to Twitter Bridge
+# Metaweave to Twitter Bridge
 
-Any messages posted to [Argora.xyz](https://argora.xyz) will directly get posted to your Twitter account!
+Any messages posted to [Metaweave.xyz](https://metaweave.xyz) will directly get posted to your Twitter account!
 
 ## How to run
 
@@ -47,9 +47,9 @@ $ docker-compose up
 ## First time init
 
 ```
-$ docker cp express/migrations/. argora-twitter-bridge.psql:/root/
-$ docker cp express/knexfile-docker.js argora-twitter-bridge.psql:/root/knexfile.js
-$ docker exec -it argora-twitter-bridge.psql /bin/bash
+$ docker cp express/migrations/. metaweave-twitter-bridge.psql:/root/
+$ docker cp express/knexfile-docker.js metaweave-twitter-bridge.psql:/root/knexfile.js
+$ docker exec -it metaweave-twitter-bridge.psql /bin/bash
 # cd root
 # apt update && apt install npm && npm install knex pg
 # mkdir migrations

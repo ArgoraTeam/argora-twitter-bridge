@@ -66,7 +66,7 @@ async function postToTwitter(
   let tweets = formatToTwitter(message);
 
   tweets.push(
-    "Tweet originally published on https://argora.xyz at https://arweave.net/" + process.env.ARGORA_TXID + "/thread/" +
+    "Tweet originally published on https://metaweave.xyz at https://arweave.net/" + process.env.METAWEAVE_TXID + "/thread/" +
       arweaveTxID
   );
 
@@ -102,17 +102,17 @@ async function postToTwitter(
 }
 
 const run = async () => {
-  console.log("running Argora to Twitter task");
+  console.log("running Metaweave to Twitter task");
 
   // for every subscribed user we
   let subscribers = await db.fetchAllSubscribedUsers();
 
   for (sub of subscribers) {
     try {
-      // fetch the latest argora messages
+      // fetch the latest metaweave messages
       let res = await graphql.request(
         arweaveHelper.ARWEAVE_GQL_ENDPOINT,
-        arweaveHelper.argoraQuery(
+        arweaveHelper.metaweaveQuery(
           [sub.arweave_address],
           sub.from_block_height
         )

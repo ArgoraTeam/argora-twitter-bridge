@@ -1,4 +1,4 @@
-import logo from "./argora.png";
+import logo from "./metaweave.png";
 import "./App.css";
 import axios from "axios";
 import { useState, useEffect } from "react";
@@ -203,7 +203,9 @@ function App() {
               marginLeft: "20px",
             }}
           >
-            <img src={logo} className="App-logo" alt="logo" /> Bridge
+            <a href="https://metaweave.xyz">
+              <img src={logo} className="App-logo" alt="logo" /> Bridge
+            </a>
           </p>
           <p style={{ marginLeft: "auto" }}>
             {isLoggedIn && (
@@ -312,7 +314,7 @@ function App() {
                     }}
                   >
                     Congratulations! Your twitter account is subscribed to the
-                    bridge, your Argora messages from {userInfo.arweave_address}{" "}
+                    bridge, your Metaweave messages from {userInfo.arweave_address}{" "}
                     (not replies) will be tweeted out automatically to your
                     twitter account.
                   </div>
