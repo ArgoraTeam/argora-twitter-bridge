@@ -66,7 +66,7 @@ async function postToTwitter(
   let tweets = formatToTwitter(message);
 
   tweets.push(
-    "Tweet originally published on https://metaweave.xyz at https://arweave.net/" + process.env.METAWEAVE_TXID + "/thread/" +
+    "Tweet originally published on @MetaweaveTeam at https://arweave.net/" + process.env.METAWEAVE_TXID + "/thread/" +
       arweaveTxID
   );
 
