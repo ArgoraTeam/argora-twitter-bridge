@@ -32,6 +32,7 @@
     "querystring": "^0.2.0",
     "twitter-text": "^3.1.0",
     "util": "^0.12.3",
+    "uuid": "^8.3.2",
     "xhr2": "^0.2.1"
   },
   "devDependencies": {
